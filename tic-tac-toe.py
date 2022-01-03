@@ -1,4 +1,16 @@
+from os import system
+
+def player_input():
+    while True:
+        p1_marker = input("Player 1, please choose your marker (O or X): ").upper()
+        if p1_marker in ("O", "X"):
+            p2_marker = "X" if p1_marker == "O" else "O"
+            break
+    return p1_marker, p2_marker
+
+
 def display_board(board):
+    system('cls||clear')
     print(f"""
      {board[6]} | {board[7]} | {board[8]} 
     -----------
@@ -10,12 +22,16 @@ def display_board(board):
 
 def player_turn(player_marker, board, selected):
     while True:
-        selection = int(input("Select a number between 1-9: "))
-        if selection in range(1,10) and selection not in selected:
-            selected.append(selection)
-            board[selection-1] = player_marker
-            display_board(board)
-            break
+        try:
+            selection = int(input("Select a number between 1-9: "))
+        except:
+            continue
+        else:
+            if selection in range(1,10) and selection not in selected:
+                selected.append(selection)
+                board[selection-1] = player_marker
+                display_board(board)
+                break
 
 
 def check_win(board):
@@ -30,11 +46,7 @@ def check_win(board):
 
 
 def play_game():
-    while True:
-        p1_marker = input("Player 1, please choose your marker (O or X): ").upper()
-        if p1_marker in ("O", "X"):
-            p2_marker = "X" if p1_marker == "O" else "O"
-            break
+    p1_marker, p2_marker = player_input()
 
     board = [' '] * 9
     display_board(board)
